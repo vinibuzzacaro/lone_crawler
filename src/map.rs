@@ -49,8 +49,8 @@ pub struct BSPNode {
     room: Option<Rect>
 }
 impl BSPNode {    
-    const MINIMUM_HEIGHT: usize = 5;
-    const MINIMUM_WIDTH: usize = 5;
+    const MINIMUM_HEIGHT: usize = 8;
+    const MINIMUM_WIDTH: usize = 8;
     
     pub fn root(map: &Map) -> Self {
         Self { rect: Rect::new(0, 0, map.columns(), map.rows()), left: None, right: None, room: None }
@@ -147,8 +147,8 @@ impl BSPNode {
         if !self.is_leaf() {
             return false;
         }
-        let margin_x = rng.random_range(1..Self::MINIMUM_WIDTH / 2);
-        let margin_y = rng.random_range(1..Self::MINIMUM_HEIGHT / 2);                
+        let margin_x = rng.random_range(1..Self::MINIMUM_WIDTH / 3);
+        let margin_y = rng.random_range(1..Self::MINIMUM_HEIGHT / 3);                
         let rect = Rect::new(
             self.rect.x + margin_x,
             self.rect.y + margin_y, 
@@ -293,8 +293,7 @@ impl Map {
     }
 
     pub fn is_walkable(&self, x: usize, y: usize) -> bool {
-        let idx = self.xy_idx(x, y);
-        dbg!(self.get_tile(idx));
+        let idx = self.xy_idx(x, y);        
         if let Some(ch) = self.get_tile(idx) {
             ch == '.'
         } else {
