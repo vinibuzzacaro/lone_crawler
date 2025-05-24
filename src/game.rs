@@ -1,6 +1,6 @@
 use std::{io::stdout, thread, time::{Duration, Instant}};
 
-use crossterm::{cursor, execute, terminal::{disable_raw_mode, enable_raw_mode}};
+use crossterm::{cursor, execute, terminal::{self, disable_raw_mode, enable_raw_mode}};
 
 use crate::{map::{BSPNode, Map}, systems::RenderSystem, world::World};
 
@@ -44,11 +44,11 @@ impl Game {
         let frame_duration = Duration::from_secs_f32(1.0 / TARGET_FPS);
         let mut frame_start: Instant;
         let mut elapsed: Duration;
-        enable_raw_mode()?;
-        execute!(stdout(), cursor::Hide)?;
+        //enable_raw_mode()?;
+        execute!(stdout(), terminal::Clear(terminal::ClearType::All), cursor::Hide)?;
         loop {
             frame_start = Instant::now();
-            self.render()?;
+            //self.render()?;
             self.update();
             elapsed = frame_start.elapsed();
             if elapsed < frame_duration {
